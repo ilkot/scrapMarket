@@ -5,6 +5,15 @@ import datetime
 import time
 #%%funcs
 def getMarketData():
+    '''
+    fetches market data automatically for current date
+
+    Returns
+    -------
+    resultDf : Dataframe
+        productId,productName,prices,categoryId,categoryName.
+
+    '''
     tic = time.perf_counter()
     catResponse = requests.get("https://www.migros.com.tr/rest/categories").json()
     restUrl = "https://www.migros.com.tr/rest/products/search?category-id="
@@ -75,7 +84,26 @@ def getMarketData():
 
 
 def saveDataCSV(resultDf,localPath,fileName):
+    '''
+    saves dataframe to disk as csv
+
+    Parameters
+    ----------
+    resultDf : Dataframe
+        Dataframe that you want to save.
+    localPath : str
+        local path.
+    fileName : str
+        fileName.
+
+    Returns
+    -------
+    None.
+
+    '''
     today = datetime.date.today()
     resultDf.to_csv(localPath+(str(today)+fileName+".csv"))
+    print('file {} is saved to {}'.format(fileName,localPath))
+    
 
 #%%
